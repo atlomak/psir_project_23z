@@ -1,41 +1,60 @@
 #include <stdio.h>
+#include <string.h>
+#include <arpa/inet.h>
 
 #include "server.h"
 #include "tuple_space.h"
 #include "protocol.h"
-#include <string.h>
-#include <arpa/inet.h>
+#include "tuples_linked_list.h"
 
 int main()
 {
     int sockfd = initialize_socket();
 
-    Tuple tuple;
-
     printf("Tuple space server listening on [UDP] port %d\n", PORT);
     char buffer[MAX_BUFF];
 
+    printf("Initialize tuple space linked list");
+    Linked_list *list = create_linked_list();
+    
 
     while (1)
     {
         memset(buffer, 0, MAX_BUFF);
 
-        handle_client(sockfd, buffer, MAX_BUFF);
-        printf("Received: %s\n", buffer);
+        struct sockaddr_in client_addr;
+        handle_client(sockfd, buffer, MAX_BUFF, &client_addr);
 
-        uint8_t type = read_protocol_message(buffer, &tuple);
+        Tuple tuple;
 
-        printf("Type: %x\n", type);
-        printf("Tuple id: %s\n", tuple.id);
-        printf("Tuple size: %x\n", tuple.size);
-
-        for (int i = 0; i < tuple.size; i++)
+        switch (read_protocol_message(buffer, &tuple))
         {
-            printf("Tuple is_actual %x\n", tuple.fields[i].is_actual);
-            printf("Tuple type %x\n", tuple.fields[i].type);
-            printf("Tuple field %d: %x\n", i, ntohl(tuple.fields[i].data.int_field));
+        case REQUEST_INP:
+
+            printf("REQUEST INP\n");
+            printf("Tuple id: %s\n", tuple.id);
+            printf("Tuple size: %x\n", tuple.size);
+
+            break;
+        case REQUEST_RD:
+
+            printf("REQUEST RD\n");
+            printf("Tuple id: %s\n", tuple.id);
+            printf("Tuple size: %x\n", tuple.size);
+
+            break;
+        case REQUEST_OUT:
+
+            printf("REQUEST OUT\n");
+            printf("Tuple id: %s\n", tuple.id);
+            printf("Tuple size: %x\n", tuple.size);
+
+            add_tuple(list, &tuple);
+
+            break;
+        default:
+            break;
         }
-        printf("#######################################\n");
     }
 
     printf("Closing socket\n");
