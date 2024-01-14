@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include "tuple_space.h"
 
-#define MAX_BUFF sizeof(protocol) + 20 * sizeof(field_t)
+#define MAX_BUFF (unsigned long)(sizeof(protocol) + 20 * sizeof(field_t))
 
 #define REQUEST_INP 0
 #define REQUEST_RD 1
@@ -25,5 +25,7 @@ typedef struct
 #pragma pack()
 
 int read_protocol_message(char *buffer, Tuple *tuple);
+
+int send_ack();
 
 #endif
