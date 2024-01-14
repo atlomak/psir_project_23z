@@ -39,18 +39,17 @@ int initialize_socket()
     return sockfd;
 }
 
-void handle_client(int sockfd, char *buffer, int size)
+void handle_client(int sockfd, char *buffer, int size, struct sockaddr_in *client_addr)
 {
-    struct sockaddr_in client_addr;
     socklen_t addr_size;
     int n;
 
-    addr_size = sizeof(client_addr);
-    n = recvfrom(sockfd, buffer, size, 0, (struct sockaddr *)&client_addr, &addr_size);
+    addr_size = sizeof(&client_addr);
+    n = recvfrom(sockfd, buffer, size, 0, (struct sockaddr *)client_addr, &addr_size);
     if (n < 0)
     {
         error("Receive failed");
     }
-    printf("Received message from %s:%d\n", inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port));
-    printf("Message: %s\n", buffer);
+    printf("Received message from %s:%d\n", inet_ntoa(client_addr->sin_addr), ntohs(client_addr->sin_port));
+    printf("Buffer: %s\n", buffer);
 }
