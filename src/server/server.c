@@ -51,4 +51,6 @@ void handle_client(int sockfd, char *buffer, int size)
     {
         error("Receive failed");
     }
+    printf("Received message from %s:%d\n", inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port));
+    printf("Message: %s\n", buffer);
 }
