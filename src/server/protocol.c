@@ -1,8 +1,10 @@
 #include "protocol.h"
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <memory.h>
 #include <arpa/inet.h>
+#include <netinet/in.h>
 
 /*
 Read tuple from received protocol message.
@@ -17,7 +19,9 @@ int read_protocol_message(char *buffer, Tuple *tuple)
 
     if (_received_size > MAX_BUFF)
     {
-        printf("ERROR: Size to big.");
+        printf("ERROR: Size to big.\n");
+        printf("Size: %ld\n", _received_size);
+        printf("Max buffer size allowed: %ld\n", MAX_BUFF);
         return -1;
     }
 
@@ -33,4 +37,20 @@ int read_protocol_message(char *buffer, Tuple *tuple)
     }
 
     return p->type;
+}
+
+int send_ack(struct sockaddr_in *client_addr, int sockfd, char *id)
+{
+    protocol p;
+    p.type = (uint8_t)ACK;
+    p.size = 0;
+    strncpy(p.id, id, TS_ID_SIZE);
+
+    if (sendto(sockfd, &p, sizeof(protocol), 0, (struct sockaddr *)client_addr, sizeof(struct sockaddr_in)) < 0)
+    {
+        printf("ERROR: Could not send ACK.\n");
+        return -1;
+    }
+
+    return 0;
 }

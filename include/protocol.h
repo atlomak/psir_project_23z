@@ -2,6 +2,8 @@
 #define MYPROT_H
 
 #include <stdint.h>
+#include <netinet/in.h>
+
 #include "tuple_space.h"
 
 #define MAX_BUFF (unsigned long)(sizeof(protocol) + 20 * sizeof(field_t))
@@ -26,6 +28,6 @@ typedef struct
 
 int read_protocol_message(char *buffer, Tuple *tuple);
 
-int send_ack();
+int send_ack(struct sockaddr_in *client_addr, int sockfd, char *id);
 
 #endif
