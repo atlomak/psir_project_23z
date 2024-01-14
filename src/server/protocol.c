@@ -69,7 +69,7 @@ int send_tuple(struct sockaddr_in *client_addr, int sockfd, Tuple *tuple)
     {
         /* 
             casting to field_t pointer bc protocol fields atribiute is just uint8 type.
-            Cant change on passed tuple bc we don't want to change bit order in server database.
+            Cant change at passed tuple bc we don't want to change bit order in server database.
         */
 
         /* vooodo, but deadline is close */
