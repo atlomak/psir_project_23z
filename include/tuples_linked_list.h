@@ -17,8 +17,8 @@ typedef struct
 
 Linked_list *create_linked_list();
 
-void add_tuple(Linked_list *list, Tuple *tuple);
+int add_tuple(Linked_list *list, Tuple *tuple);
 
-void remove_tuple(Linked_list *list, char *id);
+int remove_tuple(Linked_list *list, char *id);
 
 #endif

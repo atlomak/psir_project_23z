@@ -15,7 +15,7 @@ Linked_list *create_linked_list()
     return list;
 }
 
-void add_tuple(Linked_list *list, Tuple *tuple)
+int add_tuple(Linked_list *list, Tuple *tuple)
 {
     struct Node *node = malloc(sizeof(struct Node));
     node->tuple = tuple;
@@ -33,9 +33,10 @@ void add_tuple(Linked_list *list, Tuple *tuple)
     }
 
     list->size++;
+    return list->size;
 }
 
-void remove_tuple(Linked_list *list, char *id)
+int remove_tuple(Linked_list *list, char *id)
 {
     struct Node *prev = NULL;
     struct Node *curr = list->head;
@@ -68,4 +69,5 @@ void remove_tuple(Linked_list *list, char *id)
         prev = curr;
         curr = curr->next;
     }
+    return list->size;
 }
