@@ -19,6 +19,8 @@ Linked_list *create_linked_list();
 
 int add_tuple(Linked_list *list, Tuple *tuple);
 
-int remove_tuple(Linked_list *list, char *id);
+int remove_tuple(Linked_list *list, Tuple *tuple);
+
+int get_tuple(Linked_list *list, Tuple *tuple);
 
 #endif
