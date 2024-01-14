@@ -4,12 +4,15 @@
 #include <stdint.h>
 #include "tuple_space.h"
 
-#define MAX_BUFF sizeof(protocol) + 10 * sizeof(field_t)
-#define MAX_MSG_SIZE 20
+#define MAX_BUFF sizeof(protocol) + 20 * sizeof(field_t)
 
-#define HELLO_MSG "HELLO"
-#define CLIENT_DATA_MSG "CDATA"
-#define SERVER_DATA_MSG "SDATA"
+#define REQUEST_INP 0
+#define REQUEST_RD 1
+#define REQUEST_OUT 2
+
+#define REPLY_INP 3
+#define REPLY_DF 4
+#define ACK 5
 
 #pragma pack(1)
 typedef struct
