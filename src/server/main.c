@@ -1,17 +1,16 @@
 #include <stdio.h>
-#include <netinet/in.h>
 
 #include "server.h"
 #include "tuple_space.h"
 #include "protocol.h"
+#include <string.h>
+#include <arpa/inet.h>
 
 int main()
 {
     int sockfd = initialize_socket();
 
     Tuple tuple;
-
-    printf("Size :%d\n", sizeof(field_t));
 
     printf("Tuple space server listening on [UDP] port %d\n", PORT);
     char buffer[MAX_BUFF];
