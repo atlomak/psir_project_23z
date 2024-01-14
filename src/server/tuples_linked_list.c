@@ -63,7 +63,7 @@ int remove_tuple(Linked_list *list, char *id)
             free(curr->tuple);
             free(curr);
             list->size--;
-            return;
+            return list->size;
         }
 
         prev = curr;
