@@ -54,3 +54,33 @@ int send_ack(struct sockaddr_in *client_addr, int sockfd, char *id)
 
     return 0;
 }
+
+int send_tuple(struct sockaddr_in *client_addr, int sockfd, Tuple *tuple)
+{
+    protocol *p = malloc(sizeof(protocol) + sizeof(field_t) * tuple->size);
+    p->type = (uint8_t)REPLY_INP;
+    p->size = tuple->size;
+
+    strncpy(p->id, tuple->id, TS_ID_SIZE);
+
+    memcpy(p->fields, tuple->fields, sizeof(field_t) * tuple->size);
+
+    for (int i = 0; i < p->size; i++)
+    {
+        /* 
+            casting to field_t pointer bc protocol fields atribiute is just uint8 type.
+            Cant change on passed tuple bc we don't want to change bit order in server database.
+        */
+
+        /* vooodo, but deadline is close */
+        ((field_t *)&(p->fields[i]))->data.int_field = htonl(((field_t *)&(p->fields[i]))->data.int_field);
+    }
+
+    if (sendto(sockfd, (const char*)p, sizeof(protocol) + sizeof(field_t) * tuple->size, 0, (struct sockaddr *)client_addr, sizeof(struct sockaddr_in)) < 0)
+    {
+        printf("ERROR: Could not send tuple.\n");
+        return -1;
+    }
+
+    return 0;
+}

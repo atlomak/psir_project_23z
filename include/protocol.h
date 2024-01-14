@@ -30,4 +30,6 @@ int read_protocol_message(char *buffer, Tuple *tuple);
 
 int send_ack(struct sockaddr_in *client_addr, int sockfd, char *id);
 
+int send_tuple(struct sockaddr_in *client_addr, int sockfd, Tuple *tuple);
+
 #endif

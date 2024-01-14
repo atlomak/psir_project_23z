@@ -51,7 +51,7 @@ int main()
 
             add_tuple(list, &tuple);
 
-            send_ack(&client_addr, sockfd, &tuple.id);
+            send_ack(&client_addr, sockfd, tuple.id);
 
             break;
         default:
