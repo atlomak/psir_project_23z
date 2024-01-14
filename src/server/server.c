@@ -38,20 +38,18 @@ int initialize_socket()
     return sockfd;
 }
 
-void handle_client(int sockfd)
+void handle_client(int sockfd, char *buffer, int size)
 {
     struct sockaddr_in client_addr;
-    char buffer[BUFFER_SIZE];
+    char b[BUFFER_SIZE];
     socklen_t addr_size;
     int n;
 
     addr_size = sizeof(client_addr);
-    n = recvfrom(sockfd, buffer, BUFFER_SIZE, 0, (struct sockaddr *)&client_addr, &addr_size);
+    n = recvfrom(sockfd, b, BUFFER_SIZE, 0, (struct sockaddr *)&client_addr, &addr_size);
     if (n < 0)
     {
         error("Receive failed");
     }
-
-    buffer[n] = '\0';
-    printf("Received: %s\n", buffer);
+    memcpy(buffer, b, size);
 }
