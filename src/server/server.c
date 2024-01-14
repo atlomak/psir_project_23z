@@ -7,6 +7,7 @@
 #include <unistd.h>
 
 #include "server.h"
+#include "protocol.h"
 
 void error(const char *msg)
 {
@@ -41,15 +42,13 @@ int initialize_socket()
 void handle_client(int sockfd, char *buffer, int size)
 {
     struct sockaddr_in client_addr;
-    char b[BUFFER_SIZE];
     socklen_t addr_size;
     int n;
 
     addr_size = sizeof(client_addr);
-    n = recvfrom(sockfd, b, BUFFER_SIZE, 0, (struct sockaddr *)&client_addr, &addr_size);
+    n = recvfrom(sockfd, buffer, size, 0, (struct sockaddr *)&client_addr, &addr_size);
     if (n < 0)
     {
         error("Receive failed");
     }
-    memcpy(buffer, b, size);
 }
