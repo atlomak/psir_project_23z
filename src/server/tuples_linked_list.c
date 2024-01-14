@@ -17,6 +17,10 @@ Linked_list *create_linked_list()
     return list;
 }
 
+/*
+    Function to add tuple to linked list.
+    If tuple added return list size after append (index).
+*/
 int add_tuple(Linked_list *list, Tuple *tuple)
 {
     struct Node *node = malloc(sizeof(struct Node));
