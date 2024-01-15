@@ -24,7 +24,18 @@ Linked_list *create_linked_list()
 int add_tuple(Linked_list *list, Tuple *tuple)
 {
     struct Node *node = malloc(sizeof(struct Node));
-    node->tuple = tuple;
+
+    Tuple *p_tuple = malloc(sizeof(p_tuple));
+
+    p_tuple->size = tuple->size;
+    strncpy(p_tuple->id, tuple->id, TS_ID_SIZE);
+
+    field_t *p_fields = malloc(sizeof(field_t) * tuple->size);
+    memcpy(p_fields, tuple->fields, sizeof(field_t) * tuple->size);
+
+    p_tuple->fields = p_fields;
+
+    node->tuple = p_tuple;
     node->next = NULL;
 
     if (list->head == NULL)
