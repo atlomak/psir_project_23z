@@ -1,5 +1,4 @@
 #ifndef TUPLE_SPACE_H
-
 #define TUPLE_SPACE_H
 
 #include <stdint.h>
