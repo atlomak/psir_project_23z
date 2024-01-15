@@ -55,7 +55,8 @@ int add_tuple(Linked_list *list, Tuple *tuple)
 
 /*
     Function to remove tuple from linked list.
-    If tuple found return 0, else -1.
+    Before remove tuple is copied to a passed tuple.
+    If tuple removed return 0, else -1.
 */
 int remove_tuple(Linked_list *list, Tuple *tuple)
 {
@@ -80,6 +81,13 @@ int remove_tuple(Linked_list *list, Tuple *tuple)
                 list->tail = prev;
             }
 
+            /* copy from list to tuple before remove from list */
+            free(tuple->fields);
+
+            tuple->fields = malloc(sizeof(field_t) * tuple->size);
+            memcpy(tuple->fields, curr->tuple->fields, sizeof(field_t) * tuple->size);
+
+            /* remove from list */
             free(curr->tuple->fields);
             free(curr->tuple);
             free(curr);
