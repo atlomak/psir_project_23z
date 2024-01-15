@@ -134,10 +134,7 @@ int get_tuple(Linked_list *list, Tuple *tuple)
 */
 int _compare_tuples(Tuple *filer_tuple, Tuple *tuple)
 {
-    if (!strncmp(filer_tuple->id, tuple->id, TS_ID_SIZE))
-    {
-        return 0;
-    }
+    if (strncmp(filer_tuple->id, tuple->id, TS_ID_SIZE))
     {
         return 2;
     }
@@ -154,6 +151,7 @@ int _compare_tuples(Tuple *filer_tuple, Tuple *tuple)
             return 1;
         }
     }
+    return 0;
 }
 
 /*

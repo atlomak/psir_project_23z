@@ -11,6 +11,7 @@
 #include <stdio.h>
 #define LOG_TUPLE(t) printf("TUPLE ID: %s\nTUPLE SIZE: %d\n", t->id, t->size)
 #define PART_LINE() printf("--------------------------------------------------\n")
+#define LOG_LIST(list) printf("LIST SIZE: %d\n", list->size)
 #endif
 
 #endif
