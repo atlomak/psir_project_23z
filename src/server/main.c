@@ -6,6 +6,7 @@
 #include "tuple_space.h"
 #include "protocol.h"
 #include "tuples_linked_list.h"
+#include "logging.h"
 
 int main()
 {
@@ -16,8 +17,6 @@ int main()
 
     printf("Initialize tuple space linked list");
     Linked_list *list = create_linked_list();
-    
-
     while (1)
     {
         memset(buffer, 0, MAX_BUFF);
@@ -32,31 +31,52 @@ int main()
         case REQUEST_INP:
 
             printf("REQUEST INP\n");
-            printf("Tuple id: %s\n", tuple.id);
-            printf("Tuple size: %x\n", tuple.size);
+
+            if (remove_tuple(list, &tuple) >= 0)
+            {
+                printf("Tuple removed\n");
+                send_tuple(&client_addr, sockfd, &tuple);
+            }
+            else
+            {
+                printf("Tuple not found\n");
+                tuple.size = 0;
+                send_tuple(&client_addr, sockfd, &tuple);
+            }
 
             break;
         case REQUEST_RD:
 
             printf("REQUEST RD\n");
-            printf("Tuple id: %s\n", tuple.id);
-            printf("Tuple size: %x\n", tuple.size);
+
+            if (get_tuple(list, &tuple) >= 0)
+            {
+                printf("Tuple found\n");
+                send_tuple(&client_addr, sockfd, &tuple);
+            }
+            else
+            {
+                printf("Tuple not found\n");
+                tuple.size = 0;
+                send_tuple(&client_addr, sockfd, &tuple);
+            }
 
             break;
         case REQUEST_OUT:
-
             printf("REQUEST OUT\n");
-            printf("Tuple id: %s\n", tuple.id);
-            printf("Tuple size: %x\n", tuple.size);
 
             add_tuple(list, &tuple);
-
             send_ack(&client_addr, sockfd, tuple.id);
 
             break;
         default:
+            printf("ERROR: Unknown message type\n");
             break;
         }
+
+        LOG_TUPLE((&tuple));
+        LOG_LIST(list);
+        PART_LINE();
     }
 
     printf("Closing socket\n");
