@@ -6,7 +6,7 @@
 
 #include "tuple_space.h"
 
-#define MAX_BUFF (unsigned long)(sizeof(protocol) + 20 * sizeof(field_t))
+#define MAX_BUFF 2048
 
 #define REQUEST_INP 0
 #define REQUEST_RD 1

@@ -31,10 +31,10 @@ int read_protocol_message(char *buffer, Tuple *tuple)
     tuple->fields = malloc(sizeof(field_t) * tuple->size);
     memcpy(tuple->fields, p->fields, sizeof(field_t) * tuple->size);
 
-    for (int i = 0; i < tuple->size; i++)
-    {
-        tuple->fields[i].data.int_field = ntohl(tuple->fields[i].data.int_field);
-    }
+    // for (int i = 0; i < tuple->size; i++)
+    // {
+    //     tuple->fields[i].data.int_field = ntohl(tuple->fields[i].data.int_field);
+    // }
 
     return p->type;
 }
@@ -65,16 +65,16 @@ int send_tuple(struct sockaddr_in *client_addr, int sockfd, Tuple *tuple)
 
     memcpy(p->fields, tuple->fields, sizeof(field_t) * tuple->size);
 
-    for (int i = 0; i < p->size; i++)
-    {
-        /* 
-            casting to field_t pointer bc protocol fields atribiute is just uint8 type.
-            Cant change at passed tuple bc we don't want to change bit order in server database.
-        */
+    // for (int i = 0; i < p->size; i++)
+    // {
+    //     /* 
+    //         casting to field_t pointer bc protocol fields atribiute is just uint8 type.
+    //         Cant change at passed tuple bc we don't want to change bit order in server database.
+    //     */
 
-        /* vooodo, but deadline is close */
-        ((field_t *)&(p->fields[i]))->data.int_field = htonl(((field_t *)&(p->fields[i]))->data.int_field);
-    }
+    //     /* vooodo, but deadline is close */
+    //     ((field_t *)&(p->fields[i]))->data.int_field = htonl(((field_t *)&(p->fields[i]))->data.int_field);
+    // }
 
     if (sendto(sockfd, (const char*)p, sizeof(protocol) + sizeof(field_t) * tuple->size, 0, (struct sockaddr *)client_addr, sizeof(struct sockaddr_in)) < 0)
     {

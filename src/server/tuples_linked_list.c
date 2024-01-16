@@ -88,7 +88,6 @@ int remove_tuple(Linked_list *list, Tuple *tuple)
             memcpy(tuple->fields, curr->tuple->fields, sizeof(field_t) * tuple->size);
 
             /* remove from list */
-            free(curr->tuple->fields);
             free(curr->tuple);
             free(curr);
             list->size--;

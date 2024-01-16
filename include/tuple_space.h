@@ -9,7 +9,7 @@
 #define TS_FLOAT 1
 #define TS_SUCCESS 1
 #define TS_FAILURE 0
-#define TS_ID_SIZE 4
+#define TS_ID_SIZE 20
 
 #pragma pack(1)
 typedef struct
